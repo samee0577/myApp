@@ -66,6 +66,9 @@ yarn-error.log
 # testing
 /coverage
 
+# files with api keys
+/api.ts
+
 # Yarn
 .yarn/*
 !.yarn/patches
@@ -73,3 +76,4 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+

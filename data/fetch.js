@@ -4,6 +4,8 @@ import { TMDB_ACCESS_TOKEN, BASE_URL, IMAGE_BASE_URL } from '../api';
 export const fetchTrendingMovies = async () => {
   try {
 
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     const response = await axios.get(`${BASE_URL}/trending/movie/week`, {
       headers: {
         Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,

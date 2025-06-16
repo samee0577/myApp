@@ -5,7 +5,9 @@ import { ScrollView } from 'react-native';
 
 const DetailsScreen = ({ route }) => {
   const { title, overview, release_date, poster_path, vote_average, vote_count } = route.params.item;
+  console.log(poster_path)
   const imageUrl = getImageUrl(poster_path) || 'https://via.placeholder.com/500x750';
+  console.log(imageUrl)
   const isDarkMode = useColorScheme() === 'dark';
   const textStyles = {
     color: isDarkMode ? '#fff' : '#333',
@@ -13,12 +15,11 @@ const DetailsScreen = ({ route }) => {
 
   return (
 
-    <View style={styles.container}>
+    <View>
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         <Image
           source={{ uri: imageUrl }}
           style={styles.poster}
-
         />
         <Text style={[styles.title, textStyles]}>{title}</Text>
         <Text style={[styles.description, textStyles]}>{overview}</Text>
@@ -37,18 +38,14 @@ const DetailsScreen = ({ route }) => {
 
 const styles = StyleSheet.create({
   poster: {
-    height: "450",
-    width: "300",
+    height: 450,
+    width: 300,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: "green",
     marginBottom: 24,
     alignSelf: "center",
     elevation: 6,
-  },
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   title: {
     fontSize: 24,
@@ -80,7 +77,6 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flexDirection: "column",
-    alignItems: "left",
     padding: 20,
     paddingBottom: 40,
   }
