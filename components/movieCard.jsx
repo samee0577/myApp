@@ -2,16 +2,11 @@
 import { Image, StyleSheet, Pressable, Text, useColorScheme, Alert } from 'react-native';
 import { getImageUrl } from '../data/fetch';
 
-interface MovieCardProps {
-  title: string;
-  posterPath: string;
-  onPress?: () => void;
-}
-
-export default function MovieCard({ title, posterPath, onPress }: MovieCardProps) {
+export default function MovieCard({ title, posterPath , onPress={onPress} }) {
   const imageUrl = getImageUrl(posterPath) || 'https://via.placeholder.com/500x750';
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
+  
 
   return (
     <Pressable
@@ -54,25 +49,18 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 12,
     borderWidth: 1,
-    backgroundColor: 'rgba(74, 74, 74, 0.42)',
-    shadowColor: 'red',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    overflow: 'hidden',
   },
   poster: {
     width: '100%',
-    height: 210,
-    borderRadius: 12,
+    height: 220,
   },
   title: {
-    fontWeight: 'bold',
+    fontWeight: '700',
     fontSize: 14,
-    padding: 8,
-    textAlign: 'center',
+    padding: 12,
+    textAlign: 'left',
+    backgroundColor:"rgba(58, 105, 167, 0.28)"
   },
 });
 

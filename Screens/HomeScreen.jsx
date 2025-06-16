@@ -14,25 +14,22 @@ import {
 import MovieCard from '../components/movieCard';
 import { fetchTrendingMovies } from '../data/fetch';
 import NavRow from '../components/navRow';
-
-type Movie = {
-  id: number;
-  title: string;
-  poster_path: string;
-};
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function HomeScreen() {
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const theme = useColorScheme();
   const isDarkMode = theme === 'dark';
 
   const backgroundColor = isDarkMode ? '#181c24' : '#f8fafd';
-  const headerBg = isDarkMode ? '#23272F' : '#347cdb';
+  const headerBg = isDarkMode ? 'rgba(52, 124, 219, 0.2)' : 'rgba(52, 124, 219, 0.75)';
   const textColor = isDarkMode ? '#fff' : '#181c24';
   const subtitleColor = isDarkMode ? '#b0b8c1' : '#f3f6fa';
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetchTrendingMovies()
@@ -45,32 +42,35 @@ export default function HomeScreen() {
 
       <View style={[styles.header, { backgroundColor: headerBg }]}>
         <Text style={[styles.title, { color: isDarkMode ? '#fff' : '#fff' }]}>
-          🎬 Movie Explorer
+          🎬 TrendFlix
         </Text>
         <Text style={[styles.subtitle, { color: subtitleColor }]}>
-          Discover trending movies fetched from TMDB
+          Discover trending movies of  the week
         </Text>
       </View>
 
       <NavRow />
 
-      <View style={styles.inputWrapper}>
-        <TextInput
-          style={[styles.input, { backgroundColor: isDarkMode ? '#23272F' : '#fff', color: textColor }]}
-          placeholder="Search for a movie..."
-          placeholderTextColor={isDarkMode ? '#b0b8c1' : '#444'}
-          value={search}
-          onChangeText={setSearch}
-        />
-        <Pressable onPress={() => {
-          Alert.alert(`${search} \nsorry but it doesn't do anything yet`)
-          setSearch(''); 
-          }}>
-          <Text style={styles.btn}>Search</Text>
-        </Pressable>
-      </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+
+
+        <View style={styles.inputWrapper}>
+          <TextInput
+            style={[styles.input, { backgroundColor: isDarkMode ? '#23272F' : '#fff', color: textColor }]}
+            placeholder="Search for a movie..."
+            placeholderTextColor={isDarkMode ? '#b0b8c1' : '#444'}
+            value={search}
+            onChangeText={setSearch}
+          />
+          <Pressable onPress={() => {
+            Alert.alert(`search for: ${search} \nsorry but it doesn't do anything yet`)
+            setSearch('');
+          }}>
+            <Text style={styles.btn}>Search</Text>
+          </Pressable>
+        </View>
+
         {loading && (
           <ActivityIndicator
             size="large"
@@ -78,62 +78,70 @@ export default function HomeScreen() {
             style={{ marginTop: 20 }}
           />
         )}
-
         {!loading && movies.length === 0 && (
           <Text style={{ textAlign: 'center', color: textColor }}>
             No movies found.
           </Text>
         )}
 
+
+
         <View style={styles.cardsWrapper}>
-          {movies.map((item: any) => (
+          {movies.map((item) => (
             <MovieCard
               key={item.id}
               title={item.title}
               posterPath={item.poster_path}
+
+              onPress={() => {
+                navigation.navigate('Details', { item });
+                console.log(item);
+              }}
             />
           ))}
 
         </View>
+        <View>
+          <Text style={[styles.footer, !isDarkMode && styles.footerLight]}>Made with passion for learning and sharing.
+          {'\n \n'} -Developed by Shaikh Samee</Text>
 
+        </View>
       </ScrollView>
 
-      <View style={styles.buttonRow}>
+      <View style={[styles.buttonRow, { backgroundColor: headerBg }]}>
         <TouchableOpacity
           onPress={() => {
+            console.log("refreshing movies");
             setLoading(true);
-            setTimeout(() => setLoading(false), 1000);
+            fetchTrendingMovies()
+              .then(setMovies)
+              .finally(() => setLoading(false));
           }}
-          style={[
-            styles.button,
-            { backgroundColor: isDarkMode ? '#347cdb' : '#23272F' },
-          ]}
+          style={[styles.button, { backgroundColor: isDarkMode ? 'rgba(52, 124, 219, 0.82)' : 'rgba(35, 39, 47, 1)' }]}
         >
           <Text style={styles.buttonText}>Refresh Movies</Text>
         </TouchableOpacity>
 
-        <Pressable
-          onPress={() => Alert.alert('Button Pressed!')}
-          style={[
-            styles.button,
-            { backgroundColor: isDarkMode ? '#23272F' : '#347cdb' },
-          ]}
-        >
-          <Text style={styles.buttonText}>Press Me</Text>
-        </Pressable>
       </View>
     </View>
   );
 }
 const styles = StyleSheet.create({
-  
+  footer: {
+    textAlign: 'center',
+    marginTop: 30,
+    fontSize: 12,
+    color: '#94a3b8',
+  },
+  footerLight: {
+    color: '#64748b',
+  },
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
     paddingBottom: 10,
-    paddingTop:5,
+    paddingTop: 5,
     gap: 10,
   },
   input: {
@@ -160,29 +168,21 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    alignItems: 'center',
-    paddingTop: 50,
-    paddingBottom: 16,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 2 },
+    alignItems: 'left',
+    paddingTop: 40,
+    paddingBottom: 12,
+    flexDirection: "column",
+    paddingHorizontal: 15,
+    gap: 2,
   },
   title: {
-    fontSize: 32,
+    fontSize: 26,
     fontWeight: 'bold',
     letterSpacing: 0.5,
-    marginBottom: 8,
   },
   subtitle: {
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: '500',
-    opacity: 0.85,
-    paddingHorizontal: 24,
+    fontSize: 14,
+    fontWeight: '400',
   },
   scrollContent: {
     justifyContent: 'center',
@@ -196,23 +196,29 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-evenly',
     alignItems: 'flex-start',
-    gap: 20,
+    gap: 10,
     marginTop: 10,
   },
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    paddingVertical: 20,
-    paddingBottom: 35,
+    paddingVertical: 15,
     width: '100%',
-    backgroundColor: '#44444480',
+    backgroundColor: 'rgba(28, 28, 28, 0.81)',
+
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   button: {
-    paddingVertical: 14,
-    paddingHorizontal: 26,
-    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
     marginHorizontal: 8,
     elevation: 2,
+    borderWidth: 1,
+    borderColor: '#347cdb',
+    borderRadius: 12,
+    marginBottom: 3
   },
   buttonText: {
     color: '#fff',

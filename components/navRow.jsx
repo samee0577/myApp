@@ -1,17 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type RootStackParamList = {
-  Home: undefined;
-  About: undefined;
-  Contact: undefined;
-};
-
-// Replace 'any' with your actual navigator stack if needed
 const NavRow = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation();
 
   return (
     <View style={styles.navRow}>
@@ -21,8 +13,8 @@ const NavRow = () => {
       <Pressable onPress={() => navigation.navigate('About')} style={styles.navBtn}>
         <Text style={styles.navBtnText}>About</Text>
       </Pressable>
-      <Pressable onPress={() => navigation.navigate('Contact')} style={styles.navBtn}>
-        <Text style={styles.navBtnText}>Contact</Text>
+      <Pressable onPress={() => navigation.navigate('Credits')} style={styles.navBtn}>
+        <Text style={styles.navBtnText}>Credits</Text>
       </Pressable>
     </View>
   );
@@ -32,11 +24,12 @@ export default NavRow;
 
 const styles = StyleSheet.create({
   navRow: {
+    backgroundColor: '#181c24',
     flexDirection: 'row',
-    justifyContent: 'center',
-    paddingVertical: 10,
-    alignItems: 'center',
-    gap: 20,
+    justifyContent: 'flex-start',
+    paddingVertical: 12,
+    gap: 10,
+    paddingHorizontal:15,
   },
   navBtn: {
     paddingVertical: 8,

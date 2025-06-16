@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, ScrollView, useColorScheme } from 'react-native
 import React from 'react';
 import NavRow from '../components/navRow';
 
-const AboutScreen = () => {
+const CreditsScreen = () => {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
@@ -11,39 +11,46 @@ const AboutScreen = () => {
       <NavRow />
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={[styles.heading, !isDark && styles.headingLight]}>
-          - About Movie Explorer
+          - Credits & Acknowledgments
         </Text>
 
         <View style={[styles.card, !isDark && styles.cardLight]}>
-          <Text style={[styles.cardTitle, !isDark && styles.cardTitleLight]}>Purpose</Text>
+          <Text style={[styles.cardTitle, !isDark && styles.cardTitleLight]}>TMDB API</Text>
           <Text style={[styles.cardText, !isDark && styles.cardTextLight]}>
-            Movie Explorer is your gateway to discover trending movies using TMDB API. It fetches real-time movie data and presents it in an easy-to-browse format.
+            Huge thanks to The Movie Database (TMDB) for providing a powerful and free API to access trending movie data and more.
           </Text>
         </View>
 
         <View style={[styles.card, !isDark && styles.cardLight]}>
-          <Text style={[styles.cardTitle, !isDark && styles.cardTitleLight]}>Tech Stack</Text>
+          <Text style={[styles.cardTitle, !isDark && styles.cardTitleLight]}>React Native</Text>
           <Text style={[styles.cardText, !isDark && styles.cardTextLight]}>
-            This app is built with React Native using functional components and hooks. It integrates TMDB's API to retrieve trending movie data and uses custom reusable components like MovieCard and NavRow.
+            Built using React Native, a flexible and robust framework for building native mobile apps using JavaScript and React.
+          </Text>
+        </View>
+
+        <View style={[styles.card, !isDark && styles.cardLight]}>
+          <Text style={[styles.cardTitle, !isDark && styles.cardTitleLight]}>Libraries & Tools</Text>
+          <Text style={[styles.cardText, !isDark && styles.cardTextLight]}>
+            This app uses libraries like React Navigation for routing and Tailwind-like styling approaches for a sleek UI.
           </Text>
         </View>
 
         <View style={[styles.card, !isDark && styles.cardLight]}>
           <Text style={[styles.cardTitle, !isDark && styles.cardTitleLight]}>Developer</Text>
           <Text style={[styles.cardText, !isDark && styles.cardTextLight]}>
-            Created as a side project by a passionate developer learning React Native. First step in building dynamic and responsive mobile experiences.
+            Created by a passionate developer eager to learn and build visually rich and user-friendly applications.
           </Text>
         </View>
 
         <Text style={[styles.footer, !isDark && styles.footerLight]}>
-          Made with passion for learning and sharing.{'\n\n'}- Developed by Shaikh Samee
+          Made with passion for learning and sharing.{'\n \n '} -Developed by Shaikh Samee
         </Text>
       </ScrollView>
     </View>
   );
 };
 
-export default AboutScreen;
+export default CreditsScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -74,7 +81,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   cardLight: {
-    backgroundColor: 'rgba(30, 64, 175, 0.15)', // soft blue for light mode
+    backgroundColor: 'rgba(30, 64, 175, 0.15)',
   },
   cardTitle: {
     fontSize: 18,

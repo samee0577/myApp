@@ -3,7 +3,7 @@ import { TMDB_ACCESS_TOKEN, BASE_URL, IMAGE_BASE_URL } from '../api';
 
 export const fetchTrendingMovies = async (): Promise<any[]> => {
   try {
-    await new Promise(resolve => setTimeout(resolve, 2000)); // Delay for 2 seconds
+    await new Promise(resolve => setTimeout(resolve, 2000)); // delibrate Delay for 2 seconds
     
     const response = await axios.get(`${BASE_URL}/trending/movie/week`, {
       headers: {
@@ -20,4 +20,5 @@ export const fetchTrendingMovies = async (): Promise<any[]> => {
 
 export const getImageUrl = (path: string | null): string | null => 
   path ? `${IMAGE_BASE_URL}${path}` : null;
+  
 
